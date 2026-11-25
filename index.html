@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ГАПОУ КК КГТК — Онлайн-тестирование</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="portal-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-badge">КГТК</div>
+        <div>
+          <div class="brand-title">Система учебного тестирования ГАПОУ КК КГТК</div>
+          <div class="brand-sub">Специальность 35.02.18 «Технология переработки древесины»</div>
+        </div>
+      </div>
+
+      <div class="session-picker">
+        <label for="sessionSelect" class="session-label">Дисциплина (сессия):</label>
+        <select id="sessionSelect" class="session-select">
+          <option value="mdk_01_03">МДК 01.03 — Контроль качества (204 вопр.)</option>
+          <option value="mdk_01_02">МДК 01.02 — Технологические расчёты (376 вопр.)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mode-nav">
+    <div class="container nav-inner">
+      <button type="button" class="nav-tab active" data-tab="session">
+        Режим сессии (50 вопросов)
+      </button>
+      <button type="button" class="nav-tab" data-tab="all">
+        Все вопросы
+      </button>
+      <button type="button" class="nav-tab" data-tab="errors">
+        Мои ошибки <span id="errorsBadge" class="badge">0</span>
+      </button>
+      <button type="button" class="nav-tab" data-tab="cheatsheet">
+        Шпаргалка
+      </button>
+    </div>
+  </nav>
+
+  <main class="container main-content">
+    <!-- Инфо-панель выбранной дисциплины -->
+    <section id="disciplineBanner" class="card discipline-card">
+      <div class="discipline-row">
+        <div>
+          <span id="discCode" class="disc-code">МДК 01.03</span>
+          <h1 id="discTitle" class="disc-title"></h1>
+          <div id="discMeta" class="disc-meta"></div>
+        </div>
+        <div class="discipline-stats">
+          <div class="stat-pill">
+            <span class="stat-label">Всего в базе:</span>
+            <strong id="statTotalCount">0</strong>
+          </div>
+          <div class="stat-pill stat-pill-error">
+            <span class="stat-label">Ошибок в работе:</span>
+            <strong id="statErrorsCount">0</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Стартовые экраны вкладок -->
+    <section id="lobbyView" class="card lobby-card">
+      <!-- Динамически заполняется в app.js под активную вкладку -->
+    </section>
+
+    <!-- Экран прохождения теста -->
+    <section id="quizView" class="hidden">
+      <div class="card status-bar">
+        <div class="status-top">
+          <div class="status-left">
+            <span id="quizModeLabel" class="mode-chip"></span>
+            <span id="quizProgressText" class="progress-text">Вопрос 1 из 50</span>
+          </div>
+          <div id="quizLiveStats" class="live-stats hidden">
+            <span class="stat-answered">Отвечено: <strong id="liveAnswered">0</strong></span>
+            <span class="stat-ok">Правильно: <strong id="liveCorrect">0</strong></span>
+            <span class="stat-bad">Неправильно: <strong id="liveWrong">0</strong></span>
+          </div>
+          <div id="quizErrorStats" class="live-stats hidden">
+            <span class="stat-answered">Осталось ошибок в базе: <strong id="errRemaining">0</strong></span>
+            <span class="stat-ok">Исправлено сейчас: <strong id="errFixed">0</strong></span>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div id="quizProgressFill" class="progress-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="card question-card">
+        <div class="question-meta">
+          <span id="questionNumberBadge" class="q-num">№ 1</span>
+          <span id="questionSectionBadge" class="q-sec"></span>
+          <span id="questionTypeHint" class="q-type-hint">Один вариант ответа</span>
+        </div>
+
+        <h2 id="questionText" class="question-text"></h2>
+
+        <form id="optionsForm" class="options-list"></form>
+
+        <div id="feedbackBox" class="feedback-box hidden"></div>
+
+        <div class="question-actions">
+          <div class="actions-left">
+            <button type="button" id="submitAnswerBtn" class="btn btn-primary" disabled>
+              Ответить
+            </button>
+            <button type="button" id="nextQuestionBtn" class="btn btn-secondary hidden">
+              Следующий вопрос
+            </button>
+          </div>
+          <div class="actions-right">
+            <label class="auto-advance-toggle" title="Автоматический переход на следующий вопрос через 2 секунды после ответа">
+              <input type="checkbox" id="autoAdvanceToggle" checked>
+              <span>Автопереход (2 с)</span>
+            </label>
+            <button type="button" id="finishEarlyBtn" class="btn btn-link-danger">
+              Завершить тест
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Экран результатов -->
+    <section id="resultView" class="card result-card hidden">
+      <!-- Динамически заполняется в app.js -->
+    </section>
+  </main>
+
+  <footer class="portal-footer">
+    <div class="container footer-inner">
+      <span>Учебный тренажёр КГТК · Локальное сохранение ошибок в браузере</span>
+      <span class="footer-hint">Enter — ответить / следующий вопрос</span>
+    </div>
+  </footer>
+
+  <script src="data-mdk0103.js"></script>
+  <script src="data-mdk0102.js"></script>
+  <script src="cheatsheets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
