@@ -433,29 +433,11 @@ body {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-size: 12.5px;
 }
 
-.q-num {
-  font-weight: 700;
-  background: var(--primary-soft);
-  color: var(--primary);
-  border: 1px solid #c7dafc;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.q-sec {
-  color: var(--text-muted);
-  background: var(--bg-subtle);
-  border: 1px solid var(--border);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
 .q-type-hint {
-  margin-left: auto;
   color: var(--text-muted);
   font-style: italic;
 }

@@ -41,8 +41,6 @@
     quizErrorStats: document.getElementById("quizErrorStats"),
     errRemaining: document.getElementById("errRemaining"),
     errFixed: document.getElementById("errFixed"),
-    questionNumberBadge: document.getElementById("questionNumberBadge"),
-    questionSectionBadge: document.getElementById("questionSectionBadge"),
     questionTypeHint: document.getElementById("questionTypeHint"),
     questionText: document.getElementById("questionText"),
     optionsForm: document.getElementById("optionsForm"),
@@ -107,14 +105,6 @@
 
   function getCurrentSession() {
     return window.TEST_SESSIONS[state.currentSessionId];
-  }
-
-  function getSectionMap(session) {
-    const map = {};
-    session.sections.forEach(function (sec) {
-      map[sec.id] = sec;
-    });
-    return map;
   }
 
   function shuffleArray(arr) {
@@ -419,8 +409,7 @@
 
     const previewRows = errQuestions.map(function (q) {
       return '<div class="error-preview-row">' +
-        '<span class="error-preview-num">№ ' + q.id + '</span>' +
-        '<span>' + escapeHtml(q.text) + '</span>' +
+        '<span>• ' + escapeHtml(q.text) + '</span>' +
       '</div>';
     }).join("");
 
@@ -588,7 +577,6 @@
     if (!quiz) return;
 
     const session = getCurrentSession();
-    const sectionMap = getSectionMap(session);
     const q = quiz.questions[quiz.index];
     const total = quiz.questions.length;
     const isMulti = q.correct.length > 1;
@@ -621,9 +609,7 @@
     el.quizProgressText.textContent = "Вопрос " + (quiz.index + 1) + " из " + total;
     el.quizProgressFill.style.width = ((quiz.index / total) * 100) + "%";
 
-    // Карточка вопроса
-    el.questionNumberBadge.textContent = "№ " + q.id;
-    el.questionSectionBadge.textContent = sectionMap[q.sectionId] ? sectionMap[q.sectionId].title : "";
+    // Карточка вопроса (без номера и раздела)
     el.questionTypeHint.textContent = isMulti
       ? "Можно выбрать несколько вариантов"
       : "Один вариант ответа";
@@ -888,7 +874,7 @@
         }).join("; ");
         return (
           '<div class="review-item">' +
-            '<div class="review-q">№ ' + q.id + '. ' + escapeHtml(q.text) + '</div>' +
+            '<div class="review-q">' + escapeHtml(q.text) + '</div>' +
             '<div class="review-a-wrong">Ваш ответ: ' + escapeHtml(userAns) + '</div>' +
             '<div class="review-a-right">Правильный ответ: ' + escapeHtml(rightAns) + '</div>' +
           '</div>'
